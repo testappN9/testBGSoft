@@ -6,6 +6,7 @@ class ViewController: UIViewController, PresenterDelegate {
     private struct Properties {
         static let cellName = "CollectionViewCell"
         static let spacing: CGFloat = 20
+        static let zoomScale: CGFloat = 0.9
     }
     
     private struct AlertText {
@@ -72,5 +73,28 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
  
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return Properties.spacing * 2
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard scrollView is UICollectionView else { return }
+        let center = CGPoint(x: mainCollection.frame.width / 2 + scrollView.contentOffset.x, y: self.mainCollection.frame.height / 2 + scrollView.contentOffset.y)
+        if let indexPath = mainCollection.indexPathForItem(at: center) {
+            guard let centerCell = mainCollection.cellForItem(at: indexPath) as? CollectionViewCell else { return }
+            let zoomRaw = 1 - ((centerCell.frame.minX - Properties.spacing) - scrollView.contentOffset.x.magnitude).magnitude / ( 4 * mainCollection.frame.width)
+            let zoom = zoomRaw >= Properties.zoomScale ? zoomRaw : Properties.zoomScale
+            centerCell.transform = CGAffineTransform(scaleX: zoom, y: zoom)
+            centerCell.photoImage.transform = CGAffineTransform(scaleX: zoom, y: zoom)
+            centerCell.photoImage.alpha = zoom
+            if let nextCell = mainCollection.cellForItem(at: IndexPath(item: indexPath.item + 1, section: 0)) as? CollectionViewCell {
+                nextCell.transform = CGAffineTransform(scaleX: Properties.zoomScale, y: Properties.zoomScale)
+                nextCell.photoImage.transform = CGAffineTransform(scaleX: Properties.zoomScale, y: Properties.zoomScale)
+                centerCell.photoImage.alpha = Properties.zoomScale
+            }
+            if let previousCell = mainCollection.cellForItem(at: IndexPath(item: indexPath.item - 1, section: 0) ) as? CollectionViewCell {
+                previousCell.transform = CGAffineTransform(scaleX: Properties.zoomScale, y: Properties.zoomScale)
+                previousCell.photoImage.transform = CGAffineTransform(scaleX: Properties.zoomScale, y: Properties.zoomScale)
+                centerCell.photoImage.alpha = Properties.zoomScale
+            }
+        }
     }
 }

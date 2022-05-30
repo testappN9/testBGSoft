@@ -17,71 +17,83 @@
                 <rect key="frame" x="0.0" y="0.0" width="300" height="600"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oLt-OL-t9o">
-                        <rect key="frame" x="0.0" y="0.0" width="300" height="600"/>
-                        <color key="backgroundColor" systemColor="systemGray5Color"/>
-                    </imageView>
-                    <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nsh-TY-oTv">
-                        <rect key="frame" x="0.0" y="557" width="300" height="33"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iaM-vx-rfX" userLabel="rootView">
+                        <rect key="frame" x="5" y="5" width="290" height="590"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Cxj-kM-924">
-                                <rect key="frame" x="170" y="5" width="120" height="23"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oLt-OL-t9o">
+                                <rect key="frame" x="-45" y="-45" width="380" height="680"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Surname" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KXp-fF-cvM">
+                                <rect key="frame" x="10" y="487" width="270" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nsh-TY-oTv">
+                                <rect key="frame" x="0.0" y="540" width="290" height="35"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MeU-n3-yK7">
-                                        <rect key="frame" x="0.0" y="0.0" width="60" height="23"/>
-                                        <fontDescription key="fontDescription" name="Optima-Bold" family="Optima" pointSize="17"/>
-                                        <state key="normal" title="Profile">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="profileButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="5xT-Ie-ABI"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nSK-EW-Mcy">
-                                        <rect key="frame" x="60" y="0.0" width="60" height="23"/>
-                                        <fontDescription key="fontDescription" name="Optima-Bold" family="Optima" pointSize="17"/>
-                                        <state key="normal" title="Photo">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="photoButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="hlw-m7-h4w"/>
-                                        </connections>
-                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Cxj-kM-924">
+                                        <rect key="frame" x="164" y="1" width="116" height="33"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MeU-n3-yK7">
+                                                <rect key="frame" x="0.0" y="0.0" width="58" height="33"/>
+                                                <fontDescription key="fontDescription" name="Optima-Bold" family="Optima" pointSize="17"/>
+                                                <state key="normal" title="Profile">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="profileButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="5xT-Ie-ABI"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nSK-EW-Mcy">
+                                                <rect key="frame" x="58" y="0.0" width="58" height="33"/>
+                                                <fontDescription key="fontDescription" name="Optima-Bold" family="Optima" pointSize="17"/>
+                                                <state key="normal" title="Photo">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="photoButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="hlw-m7-h4w"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
-                            </stackView>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="Cxj-kM-924" firstAttribute="top" secondItem="Nsh-TY-oTv" secondAttribute="top" constant="1" id="Ema-52-QWh"/>
+                                    <constraint firstItem="Cxj-kM-924" firstAttribute="width" secondItem="Nsh-TY-oTv" secondAttribute="width" multiplier="0.4" id="O6n-O8-mu1"/>
+                                    <constraint firstAttribute="trailing" secondItem="Cxj-kM-924" secondAttribute="trailing" constant="10" id="d3c-MJ-23u"/>
+                                    <constraint firstAttribute="bottom" secondItem="Cxj-kM-924" secondAttribute="bottom" constant="1" id="oxW-q5-xPb"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Cxj-kM-924" firstAttribute="top" secondItem="Nsh-TY-oTv" secondAttribute="top" constant="5" id="Ema-52-QWh"/>
-                            <constraint firstItem="Cxj-kM-924" firstAttribute="width" secondItem="Nsh-TY-oTv" secondAttribute="width" multiplier="0.4" id="O6n-O8-mu1"/>
-                            <constraint firstAttribute="trailing" secondItem="Cxj-kM-924" secondAttribute="trailing" constant="10" id="d3c-MJ-23u"/>
-                            <constraint firstAttribute="bottom" secondItem="Cxj-kM-924" secondAttribute="bottom" constant="5" id="oxW-q5-xPb"/>
+                            <constraint firstAttribute="trailing" secondItem="oLt-OL-t9o" secondAttribute="trailing" constant="-45" id="6DE-w0-Xme"/>
+                            <constraint firstItem="Nsh-TY-oTv" firstAttribute="leading" secondItem="iaM-vx-rfX" secondAttribute="leading" id="7al-b6-hhe"/>
+                            <constraint firstAttribute="bottom" secondItem="Nsh-TY-oTv" secondAttribute="bottom" constant="15" id="AeK-V6-BaW"/>
+                            <constraint firstAttribute="bottom" secondItem="oLt-OL-t9o" secondAttribute="bottom" constant="-45" id="Ek0-jW-WXe"/>
+                            <constraint firstItem="Nsh-TY-oTv" firstAttribute="top" secondItem="KXp-fF-cvM" secondAttribute="bottom" constant="5" id="Tja-rF-Z7a"/>
+                            <constraint firstItem="oLt-OL-t9o" firstAttribute="top" secondItem="iaM-vx-rfX" secondAttribute="top" constant="-45" id="Wvw-4B-iti"/>
+                            <constraint firstItem="KXp-fF-cvM" firstAttribute="leading" secondItem="iaM-vx-rfX" secondAttribute="leading" constant="10" id="bzP-f2-s1b"/>
+                            <constraint firstAttribute="trailing" secondItem="KXp-fF-cvM" secondAttribute="trailing" constant="10" id="ens-9T-PpO"/>
+                            <constraint firstAttribute="trailing" secondItem="Nsh-TY-oTv" secondAttribute="trailing" id="gbH-tl-ruq"/>
+                            <constraint firstItem="oLt-OL-t9o" firstAttribute="leading" secondItem="iaM-vx-rfX" secondAttribute="leading" constant="-45" id="vWL-ac-g2o"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Surname" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KXp-fF-cvM">
-                        <rect key="frame" x="10" y="504" width="280" height="48"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="Nsh-TY-oTv" secondAttribute="bottom" constant="10" id="1J9-vm-HFU"/>
-                <constraint firstItem="oLt-OL-t9o" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="1ag-Vt-ZCn"/>
-                <constraint firstAttribute="trailing" secondItem="oLt-OL-t9o" secondAttribute="trailing" id="3UC-iZ-ifC"/>
-                <constraint firstItem="Nsh-TY-oTv" firstAttribute="top" secondItem="KXp-fF-cvM" secondAttribute="bottom" constant="5" id="5io-cC-m3F"/>
-                <constraint firstAttribute="bottom" secondItem="oLt-OL-t9o" secondAttribute="bottom" id="AB3-4Y-AY6"/>
-                <constraint firstItem="oLt-OL-t9o" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="FwF-4Q-57y"/>
-                <constraint firstItem="Nsh-TY-oTv" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="MF9-y0-OMb"/>
-                <constraint firstAttribute="trailing" secondItem="KXp-fF-cvM" secondAttribute="trailing" constant="10" id="YQG-yi-hd6"/>
-                <constraint firstItem="KXp-fF-cvM" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="gMM-cd-FYl"/>
-                <constraint firstItem="Nsh-TY-oTv" firstAttribute="height" secondItem="oLt-OL-t9o" secondAttribute="height" multiplier="0.055" id="reR-mP-0w4"/>
-                <constraint firstAttribute="trailing" secondItem="Nsh-TY-oTv" secondAttribute="trailing" id="w4b-nS-XiU"/>
+                <constraint firstAttribute="trailing" secondItem="iaM-vx-rfX" secondAttribute="trailing" constant="5" id="BX9-da-jNz"/>
+                <constraint firstAttribute="bottom" secondItem="iaM-vx-rfX" secondAttribute="bottom" constant="5" id="FrG-Cm-iYI"/>
+                <constraint firstItem="iaM-vx-rfX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="Owl-Je-U2U"/>
+                <constraint firstItem="iaM-vx-rfX" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="QQ5-AY-bRi"/>
             </constraints>
             <connections>
                 <outlet property="photoImage" destination="oLt-OL-t9o" id="q3S-PL-atO"/>
+                <outlet property="rootView" destination="iaM-vx-rfX" id="icJ-SF-Xre"/>
                 <outlet property="titleLabel" destination="KXp-fF-cvM" id="MC1-9H-HV8"/>
             </connections>
             <point key="canvasLocation" x="100.00000000000001" y="81.696428571428569"/>
