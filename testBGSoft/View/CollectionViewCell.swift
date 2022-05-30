@@ -3,6 +3,7 @@ import UIKit
 class CollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var photoImage: UIImageView!
+    @IBOutlet weak var rootView: UIView!
     private weak var delegate: ViewControllerDelegate?
     private var loadingView: LoadingView?
     private var linkProfile: String?
@@ -14,11 +15,15 @@ class CollectionViewCell: UICollectionViewCell {
         static let titleFont = UIFont(name: "Gill Sans UltraBold", size: 20)
         static let loadingViewSize = 25
         static let loadingViewSpacing = 12
+        static let cornerRadius: CGFloat = 15
+        static let shadowOffset = 2
+        static let shadowOpacity: Float = 0.6
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         setupLoadingView()
+        cellDesign()
     }
     
     override func prepareForReuse() {
@@ -68,6 +73,21 @@ class CollectionViewCell: UICollectionViewCell {
         loadingView = LoadingView(frame: CGRect(x: Properties.loadingViewSpacing, y: Properties.loadingViewSpacing, width: Properties.loadingViewSize, height: Properties.loadingViewSize))
         loadingView?.backgroundColor = .clear
         guard let loadingView = loadingView else { return }
-        photoImage.addSubview(loadingView)
+        rootView.addSubview(loadingView)
+    }
+    
+    private func cellDesign() {
+        addShadows()
+        addCornerRadius()
+    }
+    
+    private func addShadows() {
+        contentView.layer.shadowOffset = CGSize(width: Properties.shadowOffset, height: Properties.shadowOffset)
+        contentView.layer.shadowOpacity = Properties.shadowOpacity
+    }
+    
+    private func addCornerRadius() {
+        rootView.layer.masksToBounds = true
+        rootView.layer.cornerRadius = Properties.cornerRadius
     }
 }
