@@ -13,3 +13,8 @@ protocol PresenterDelegate: AnyObject {
     func reloadCollection()
     func showErrorAlert(error: NetworkError)
 }
+
+protocol CollectionCellDelegate: AnyObject {
+    func showWebContent(link: String?)
+    func getImageForCell(indexPath: Int, completitionHandler: @escaping (UIImage?) -> Void)
+}

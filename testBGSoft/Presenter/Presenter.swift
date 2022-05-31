@@ -5,13 +5,18 @@ class Presenter: ViewControllerDelegate {
     private let imageCache = NSCache<NSString, UIImage>()
     private var dictionaryOfData = [String: Photo]() {
         didSet {
-            sortByAuthor()
+            arrayOfNames = dictionaryOfData.sorted { $0.value.userName ?? "" < $1.value.userName ?? ""}.map { $0.key }
+            if let first = arrayOfNames.first, let last = arrayOfNames.last {
+                arrayOfNames.insert(last, at: 0)
+                arrayOfNames.append(first)
+            }
             DispatchQueue.main.async {
                 self.view?.reloadCollection()
             }
         }
     }
     private var arrayOfNames = [String]()
+    private var arrayOfNamesPrepared = [String]()
     
     required init(view: PresenterDelegate) {
         self.view = view
@@ -28,10 +33,6 @@ class Presenter: ViewControllerDelegate {
                 self.dictionaryOfData = data
             }
         }
-    }
-    
-    private func sortByAuthor() {
-        arrayOfNames = dictionaryOfData.sorted { $0.value.userName ?? "" < $1.value.userName ?? ""}.map { $0.key }
     }
     
     func updateAllData() {

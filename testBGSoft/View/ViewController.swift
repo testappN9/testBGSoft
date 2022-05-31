@@ -1,8 +1,9 @@
 import UIKit
 
-class ViewController: UIViewController, PresenterDelegate {
+class ViewController: UIViewController, PresenterDelegate, CollectionCellDelegate {
     @IBOutlet weak var mainCollection: UICollectionView!
     private var presenter: ViewControllerDelegate!
+    private var taskScroll = DispatchWorkItem {}
     private struct Properties {
         static let cellName = "CollectionViewCell"
         static let spacing: CGFloat = 20
@@ -33,8 +34,30 @@ class ViewController: UIViewController, PresenterDelegate {
         mainCollection.isPagingEnabled = true
     }
     
+    private func scrollMainCollection(currentIndex: Int) {
+        taskScroll = DispatchWorkItem {
+            let index = currentIndex == self.mainCollection.numberOfItems(inSection: 0) - 2 ? 1 : currentIndex
+            self.mainCollection.scrollToItem(at: IndexPath(item: index + 1, section: 0), at: .left, animated: true)
+            self.scrollMainCollection(currentIndex: index + 2)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: taskScroll)
+    }
+    
     func reloadCollection() {
         mainCollection.reloadData()
+        mainCollection.scrollToItem(at: IndexPath(item: 1, section: 0), at: .left, animated: false)
+        scrollMainCollection(currentIndex: 1)
+    }
+    
+    func getImageForCell(indexPath: Int, completitionHandler: @escaping (UIImage?) -> Void) {
+        presenter.getImageForCell(indexPath: indexPath) { image in
+            completitionHandler(image)
+        }
+    }
+    
+    func showWebContent(link: String?) {
+        taskScroll.cancel()
+        self.present(WebViewController(link: link), animated: true, completion: nil)
     }
     
     func showErrorAlert(error: NetworkError) {
@@ -57,7 +80,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Properties.cellName, for: indexPath) as? CollectionViewCell {
-            cell.setupCell(item: presenter.getItemForIndexPath(indexPath: indexPath.item), indexPath: indexPath.item, delegate: presenter)
+            cell.setupCell(item: presenter.getItemForIndexPath(indexPath: indexPath.item), indexPath: indexPath.item, delegate: self)
             return cell
         }
         fatalError()
@@ -75,26 +98,38 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         return Properties.spacing * 2
     }
     
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let page = Int(round(scrollView.contentOffset.x / scrollView.frame.size.width))
+        switch page {
+        case 0:
+            mainCollection.scrollToItem(at: [0, mainCollection.numberOfItems(inSection: 0) - 2], at: .left, animated: false)
+        case mainCollection.numberOfItems(inSection: 0) - 1:
+            mainCollection.scrollToItem(at: [0, 1], at: .left, animated: false)
+        default:
+            break
+        }
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard scrollView is UICollectionView else { return }
         let center = CGPoint(x: mainCollection.frame.width / 2 + scrollView.contentOffset.x, y: self.mainCollection.frame.height / 2 + scrollView.contentOffset.y)
-        if let indexPath = mainCollection.indexPathForItem(at: center) {
-            guard let centerCell = mainCollection.cellForItem(at: indexPath) as? CollectionViewCell else { return }
-            let zoomRaw = 1 - ((centerCell.frame.minX - Properties.spacing) - scrollView.contentOffset.x.magnitude).magnitude / ( 4 * mainCollection.frame.width)
-            let zoom = zoomRaw >= Properties.zoomScale ? zoomRaw : Properties.zoomScale
-            centerCell.transform = CGAffineTransform(scaleX: zoom, y: zoom)
-            centerCell.photoImage.transform = CGAffineTransform(scaleX: zoom, y: zoom)
-            centerCell.photoImage.alpha = zoom
-            if let nextCell = mainCollection.cellForItem(at: IndexPath(item: indexPath.item + 1, section: 0)) as? CollectionViewCell {
-                nextCell.transform = CGAffineTransform(scaleX: Properties.zoomScale, y: Properties.zoomScale)
-                nextCell.photoImage.transform = CGAffineTransform(scaleX: Properties.zoomScale, y: Properties.zoomScale)
-                centerCell.photoImage.alpha = Properties.zoomScale
-            }
-            if let previousCell = mainCollection.cellForItem(at: IndexPath(item: indexPath.item - 1, section: 0) ) as? CollectionViewCell {
-                previousCell.transform = CGAffineTransform(scaleX: Properties.zoomScale, y: Properties.zoomScale)
-                previousCell.photoImage.transform = CGAffineTransform(scaleX: Properties.zoomScale, y: Properties.zoomScale)
-                centerCell.photoImage.alpha = Properties.zoomScale
-            }
+        guard let indexPath = mainCollection.indexPathForItem(at: center) else { return }
+        guard let centerCell = mainCollection.cellForItem(at: indexPath) as? CollectionViewCell else { return }
+        let zoomRaw = 1 - ((centerCell.frame.minX - Properties.spacing) - scrollView.contentOffset.x.magnitude).magnitude / ( 4 * mainCollection.frame.width)
+        let zoom = zoomRaw >= Properties.zoomScale ? zoomRaw : Properties.zoomScale
+        updateEffects(cell: centerCell, ratio: zoom)
+        if let nextCell = mainCollection.cellForItem(at: IndexPath(item: indexPath.item + 1, section: 0)) as? CollectionViewCell {
+            updateEffects(cell: nextCell, ratio: Properties.zoomScale)
         }
+        if let previousCell = mainCollection.cellForItem(at: IndexPath(item: indexPath.item - 1, section: 0) ) as? CollectionViewCell {
+            updateEffects(cell: previousCell, ratio: Properties.zoomScale)
+        }
+        func updateEffects(cell: CollectionViewCell, ratio: CGFloat) {
+            cell.transform = CGAffineTransform(scaleX: ratio, y: ratio)
+            cell.photoImage.transform = CGAffineTransform(scaleX: ratio, y: ratio)
+            cell.photoImage.alpha = ratio
+        }
+        taskScroll.cancel()
+        scrollMainCollection(currentIndex: indexPath.item)
     }
 }
