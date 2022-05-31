@@ -4,7 +4,7 @@ class CollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var photoImage: UIImageView!
     @IBOutlet weak var rootView: UIView!
-    private weak var delegate: ViewControllerDelegate?
+    private weak var delegate: CollectionCellDelegate?
     private var loadingView: LoadingView?
     private var linkProfile: String?
     private var linkPhoto: String?
@@ -32,10 +32,11 @@ class CollectionViewCell: UICollectionViewCell {
         photoImage.image = nil
     }
     
-    func setupCell(item: Photo, indexPath: Int, delegate: ViewControllerDelegate) {
+    func setupCell(item: Photo, indexPath: Int, delegate: CollectionCellDelegate) {
         titleLabel.attributedText = titleText(name: item.userName)
         linkProfile = item.userURL
         linkPhoto = item.photoURL
+        self.delegate = delegate
         delegate.getImageForCell(indexPath: indexPath) { image in
             DispatchQueue.main.async {
                 self.photoImage.image = image
@@ -46,15 +47,11 @@ class CollectionViewCell: UICollectionViewCell {
     }
     
     @IBAction func profileButton(_ sender: Any) {
-        showLinkContent(link: linkProfile)
+        delegate?.showWebContent(link: linkProfile)
     }
     
     @IBAction func photoButton(_ sender: Any) {
-        showLinkContent(link: linkPhoto)
-    }
-    
-    private func showLinkContent(link: String?) {
-        self.window?.rootViewController?.present(WebViewController(link: link), animated: true, completion: nil)
+        delegate?.showWebContent(link: linkPhoto)
     }
     
     private func titleText(name: String?) -> NSAttributedString {
