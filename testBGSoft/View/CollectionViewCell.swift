@@ -23,7 +23,8 @@ class CollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setupLoadingView()
-        cellDesign()
+        addShadows()
+        addCornerRadius()
     }
     
     override func prepareForReuse() {
@@ -71,11 +72,6 @@ class CollectionViewCell: UICollectionViewCell {
         loadingView?.backgroundColor = .clear
         guard let loadingView = loadingView else { return }
         rootView.addSubview(loadingView)
-    }
-    
-    private func cellDesign() {
-        addShadows()
-        addCornerRadius()
     }
     
     private func addShadows() {
