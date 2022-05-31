@@ -23,14 +23,14 @@ class Presenter: ViewControllerDelegate {
     }
     
     private func updateAllNetworkData() {
-        NetworkManager.data.getAllData { data, error in
+        NetworkManager.shared.getAllData { [weak self] data, error in
             if error != .success {
                 DispatchQueue.main.async {
-                    self.view?.showErrorAlert(error: error)
+                    self?.view?.showErrorAlert(error: error)
                 }
             } else {
                 guard let data = data else { return }
-                self.dictionaryOfData = data
+                self?.dictionaryOfData = data
             }
         }
     }
@@ -52,11 +52,11 @@ class Presenter: ViewControllerDelegate {
         if let image = imageCache.object(forKey: imageName as NSString) {
             completitionHandler(image)
         } else {
-            NetworkManager.data.getImage(nameOfPhoto: arrayOfNames[indexPath]) { data in
+            NetworkManager.shared.getImage(nameOfPhoto: arrayOfNames[indexPath]) { [weak self] data in
                 guard let data = data else { return }
                 let image = UIImage(data: data as Data)
                 if let image = image {
-                    self.imageCache.setObject(image, forKey: imageName as NSString)
+                    self?.imageCache.setObject(image, forKey: imageName as NSString)
                 }
                 completitionHandler(image)
             }
